@@ -13,9 +13,6 @@ let mantissa;
 let isSubnormal;
 let isInfinite;
 
-let exponentBitDepth;
-let mantissaBitDepth;
-
 let sign;
 let exponentBits;
 let mantissaBits;
@@ -85,16 +82,11 @@ class DecomposedNumber
 //------------------------------------------------------------------------------
 function initialize()
 {
-    document.getElementById("init-button").remove();
-    
     exponent = 0;
     mantissa = 0;
 
     isSubnormal = false;
     isInfinite = false;
-
-    exponentBitDepth = 8;
-    mantissaBitDepth = 23;
     
     sign = false;
     exponentBits = [];
@@ -110,37 +102,73 @@ function initialize()
     mantissaOutput = document.getElementById("mantissa-output");
     resultOutput = document.getElementById("result-output");
     
-
+    
     const signBitElem = document.createElement("span");
     signBitElem.innerText = "0";
     signBitElem.className = "sign bit";
     signBitElem.setAttribute("onclick", `switchSignBit()`);
     signBitElem.id="sign-bit-span";
     signBitDiv.appendChild(signBitElem);
-
-    for(let i = 0; i < exponentBitDepth; i++)
-    {
-        exponentBits.push(false);
-        const newExponentElem = document.createElement("span");
-        newExponentElem.innerText = "0";
-        newExponentElem.className = "exponent bit";
-        newExponentElem.setAttribute("onclick", `switchExponentBit(${i})`);
-        newExponentElem.id=`exponent-bit-${i}`;
-        exponentBitsDiv.appendChild(newExponentElem);
-    }
     
-    for(let i = 0; i < mantissaBitDepth; i++)
-    {
-        mantissaBits.push(false);
-        const newMantissaElem = document.createElement("span");
-        newMantissaElem.innerText = "0";
-        newMantissaElem.className = "mantissa bit";
-        newMantissaElem.setAttribute("onclick", `switchMantissaBit(${i})`);
-        newMantissaElem.id=`mantissa-bit-${i}`;
-        mantissaBitsDiv.appendChild(newMantissaElem);
-    }
-
+    for(let i = 0; i < 8; i++)
+        addExponentBit();
+    
+    for(let i = 0; i < 23; i++)
+        addMantissaBit();
+    
     updateExponent();
+    updateMantissa();
+
+    document.getElementById("intro-screen").remove();
+}
+
+
+function addExponentBit()
+{
+    const newExponentElem = document.createElement("span");
+    newExponentElem.innerText = "0";
+    newExponentElem.className = "exponent bit";
+    newExponentElem.setAttribute("onclick", `switchExponentBit(${exponentBits.length})`);
+    newExponentElem.id=`exponent-bit-${exponentBits.length}`;
+    exponentBitsDiv.appendChild(newExponentElem);
+    exponentBits.push(false);
+    updateExponent();
+}
+
+
+function removeExponentBit()
+{
+    if(exponentBits.length < 2)
+        return;
+
+    const exponents = exponentBitsDiv.children;
+    exponents[exponents["length"] - 1].remove();
+    exponentBits.pop();
+    updateExponent();
+}
+
+
+function addMantissaBit()
+{
+    const newMantissaElem = document.createElement("span");
+    newMantissaElem.innerText = "0";
+    newMantissaElem.className = "mantissa bit";
+    newMantissaElem.setAttribute("onclick", `switchMantissaBit(${mantissaBits.length})`);
+    newMantissaElem.id=`mantissa-bit-${mantissaBits.length}`;
+    mantissaBitsDiv.appendChild(newMantissaElem);
+    mantissaBits.push(false);
+    updateMantissa();
+}
+
+
+function removeMantissaBit()
+{
+    if(mantissaBits.length < 2)
+        return;
+    
+    const mantissas = mantissaBitsDiv.children;
+    mantissas[mantissas["length"] - 1].remove();
+    mantissaBits.pop();
     updateMantissa();
 }
 
@@ -159,7 +187,7 @@ function switchExponentBit(bit)
     if(typeof bit !== "number")
         return;
     
-    if(bit < 0 || bit >= exponentBitDepth)
+    if(bit < 0 || bit >= exponentBits.length)
         return;
     
     exponentBits[bit] = !exponentBits[bit];
@@ -173,10 +201,17 @@ function updateExponentBit(bit)
     if(typeof bit !== "number")
         return;
     
-    if(bit < 0 || bit >= exponentBitDepth)
+    if(bit < 0 || bit >= exponentBits.length)
         return;
 
     document.getElementById(`exponent-bit-${bit}`).innerText = exponentBits[bit] ? "1" : "0";
+}
+
+
+function setBias(newBias)
+{
+    bias = newBias;
+    updateExponent();
 }
 
 
@@ -186,7 +221,7 @@ function updateExponent()
     isSubnormal = true;
     isInfinite = true;
     
-    for(let bit = 0; bit < exponentBitDepth; bit++)
+    for(let bit = 0; bit < exponentBits.length; bit++)
     {
         const value = exponentBits[bit];
         
@@ -225,7 +260,7 @@ function switchMantissaBit(bit)
     if(typeof bit !== "number")
         return;
     
-    if(bit < 0 || bit >= mantissaBitDepth)
+    if(bit < 0 || bit >= mantissaBits.length)
         return;
     
     mantissaBits[bit] = !mantissaBits[bit];
@@ -239,7 +274,7 @@ function updateMantissaBit(bit)
     if(typeof bit !== "number")
         return;
     
-    if(bit < 0 || bit >= mantissaBitDepth)
+    if(bit < 0 || bit >= mantissaBits.length)
         return;
 
     document.getElementById(`mantissa-bit-${bit}`).innerText = mantissaBits[bit] ? "1" : "0";
@@ -249,7 +284,7 @@ function updateMantissaBit(bit)
 function updateMantissa()
 {
     mantissa = 0;
-    for(let bit = mantissaBitDepth - 1; bit >= 0; bit--)
+    for(let bit = mantissaBits.length - 1; bit >= 0; bit--)
     {
         mantissa += mantissaBits[bit] ? 1 : 0;
         mantissa /= 2;

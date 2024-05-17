@@ -1,20 +1,54 @@
 body
 {
     background-color: whitesmoke;
-    font-size: 1rem;
+    font-size: 1.5rem;
     display: flex;
     flex-direction: column;
+}
+
+#intro-screen
+{
+    height: 100vh;
+    width: 100vw;
+    background-color: whitesmoke;
+}
+
+.title
+{
+    font-weight: 600;
+    font-size: 1.25em;
+}
+
+#controls
+{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+#controls>button
+{
+    margin: 0rem 0.5rem;
+    padding: 0.25rem 3rem;
+    font-size: 1.25rem;
+}
+
+#controls>input
+{
+    margin: 0rem 0.5rem;
+    padding: 0.25rem;
+    font-size: 1.5rem;
 }
 
 #bits-container
 {
     display: flex;
     flex-direction: row;
-    box-sizing: content-box;
     flex-wrap: wrap;
-    height: 2.375rem;
     margin: 1.5rem 0rem;
     max-width: 100vw;
+    box-sizing: content-box;
 }
 
 .bit
@@ -31,6 +65,13 @@ body
 .bit.sign
 {
     border-color: green;
+}
+
+#sign-bit, #exponent-bits, #mantissa-bits
+{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
 }
 
 .bit.exponent

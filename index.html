@@ -8,7 +8,19 @@
     <link rel="stylesheet" href="./style.css" />
 </head>
 <body>
-    <button onclick="initialize()" id="init-button">click me</button>
+    <div id="intro-screen">
+        <span class="title">Float Explorer</span>
+        <p>This is a simple float explorer designed to help visualize floats.</p>
+        <p>It's not extremly fully featured, but it can be helpful.</p>
+        <button onclick="initialize()" id="init-button">Begin</button>
+    </div>
+    <div id="controls">
+        <button onclick="addExponentBit()">Add Exponent Bit</button>
+        <button onclick="removeExponentBit()">Remove Exponent Bit</button>
+        <button onclick="addMantissaBit()">Add Mantissa Bit</button>
+        <button onclick="removeMantissaBit()">Remove Mantissa Bit</button>
+        <label for="exponent-bias">Bias:</label><input type="number" id="exponent-bias" value="127" oninput="setBias(this.value)"/>
+    </div>
     <div id="bits-container" >
         <div id="sign-bit">
 
@@ -20,15 +32,17 @@
 
         </div>
     </div>
-    <div id="deconstructed-output">
-        <div class="exponent-text">
-            <span>2</span>
-            <span id="exponent-output"></span>
+    <div id="output">
+        <div id="deconstructed-output">
+            <div class="exponent-text">
+                <span>2</span>
+                <span id="exponent-output"></span>
+            </div>
+            <span>&nbsp;X&nbsp;</span>
+            <span id="sign-output"></span>
+            <span id="mantissa-output"></span>
         </div>
-        <span>&nbsp;X&nbsp;</span>
-        <span id="sign-output"></span>
-        <span id="mantissa-output"></span>
+        <span id="result-output"></span>
     </div>
-    <span id="result-output"></span>
 </body>
 </html>
