@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Float Explorer</title>
+    <script src="./float_explorer.js" ></script>
+    <link rel="stylesheet" href="./style.css" />
+</head>
+<body>
+    <button onclick="initialize()" id="init-button">click me</button>
+    <div id="bits-container" >
+        <div id="sign-bit">
+
+        </div>
+        <div id="exponent-bits">
+
+        </div>
+        <div id="mantissa-bits">
+
+        </div>
+    </div>
+    <div id="deconstructed-output">
+        <div class="exponent-text">
+            <span>2</span>
+            <span id="exponent-output"></span>
+        </div>
+        <span>&nbsp;X&nbsp;</span>
+        <span id="sign-output"></span>
+        <span id="mantissa-output"></span>
+    </div>
+    <span id="result-output"></span>
+</body>
+</html>
