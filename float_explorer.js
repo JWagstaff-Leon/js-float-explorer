@@ -101,7 +101,8 @@ function initialize()
     exponentOutput = document.getElementById("exponent-output");
     mantissaOutput = document.getElementById("mantissa-output");
     resultOutput = document.getElementById("result-output");
-    
+
+    document.getElementById("exponent-bias").value = bias;    
     
     const signBitElem = document.createElement("span");
     signBitElem.innerText = "0";
